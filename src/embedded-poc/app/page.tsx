@@ -9,6 +9,10 @@ const ZoomMeeting = dynamic(
   { ssr: false },
 );
 
+// Empty = same-origin. Guards against NEXT_PUBLIC_API_URL being unset on
+// Vercel (undefined would produce "/undefined/api/..." 404s).
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+
 interface JoinToken {
   zoom_meeting_id: string;
   password: string;
@@ -48,7 +52,7 @@ export default function Home() {
     setZoomBusy(true);
     setZoomError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/meetings/${meetingId}/join-token`, {
+      const res = await fetch(`${API_BASE}/api/meetings/${meetingId}/join-token`, {
         credentials: "include",
       });
       const data: JoinToken = await res.json();
@@ -67,13 +71,13 @@ export default function Home() {
     setZoomBusy(true);
     setZoomError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/meetings`, {
+      const res = await fetch(`${API_BASE}/api/meetings`, {
         method: "DELETE",
         credentials: "include",
       });
       const data = await res.json();
       if (data.error === "zoom_not_connected") {
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/zoom/connect`;
+        window.location.href = `${API_BASE}/zoom/connect`;
         return;
       }
       console.log("delete result", data);
@@ -91,7 +95,7 @@ export default function Home() {
     setZoomBusy(true);
     setZoomError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/meetings`, {
+      const res = await fetch(`${API_BASE}/api/meetings`, {
         method: "POST",
         body: new URLSearchParams({ topic: "My Meeting" }),
         credentials: "include",
@@ -99,7 +103,7 @@ export default function Home() {
       const data = await res.json();
       console.log("createMeeting response", res.status, data);
       if (data.error === "zoom_not_connected") {
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/zoom/connect`;
+        window.location.href = `${API_BASE}/zoom/connect`;
         return;
       }
       if (!res.ok || data.error) {
