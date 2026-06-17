@@ -42,7 +42,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -25; echo \"EXIT: ${PIPESTATUS[0]}\"",
+    "buildCommand": "npm run build 2>&1 | tail -15; echo \"EXIT: ${PIPESTATUS[0]}\"",
     "testCommand": null,
     "lintCommand": "npm run lint",
     "devCommand": "npm run dev",
@@ -105,6 +105,12 @@
   },
   "hotPaths": [
     {
+      "path": "app/page.tsx",
+      "accessCount": 25,
+      "lastAccessed": 1781709779728,
+      "type": "file"
+    },
+    {
       "path": "app/api/meetings/route.ts",
       "accessCount": 13,
       "lastAccessed": 1781706222096,
@@ -114,12 +120,6 @@
       "path": "lib/zoom.ts",
       "accessCount": 12,
       "lastAccessed": 1781706194991,
-      "type": "file"
-    },
-    {
-      "path": "app/page.tsx",
-      "accessCount": 10,
-      "lastAccessed": 1781705433464,
       "type": "file"
     },
     {
@@ -192,6 +192,30 @@
       "path": "lib/meeting-store.ts",
       "accessCount": 1,
       "lastAccessed": 1781702201619,
+      "type": "file"
+    },
+    {
+      "path": "app/api/stream-token/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781708160874,
+      "type": "file"
+    },
+    {
+      "path": "components/StreamVideoProvider.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781708199973,
+      "type": "file"
+    },
+    {
+      "path": "components/StreamMeetingRoom.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781708252454,
+      "type": "file"
+    },
+    {
+      "path": "app/call/[id]/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781709196540,
       "type": "file"
     }
   ],

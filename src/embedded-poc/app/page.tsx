@@ -1,11 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 // Lazy + client-only: heavy Zoom SDK stays out of the initial page bundle.
 const ZoomMeeting = dynamic(
   () => import("@/components/ZoomMeeting").then((m) => m.ZoomMeeting),
+  { ssr: false },
+);
+
+// Same treatment for the Stream SDK — only pulled in when a call mounts.
+const StreamVideoProvider = dynamic(
+  () => import("@/components/StreamVideoProvider").then((m) => m.StreamVideoProvider),
+  { ssr: false },
+);
+const StreamMeetingRoom = dynamic(
+  () => import("@/components/StreamMeetingRoom").then((m) => m.StreamMeetingRoom),
   { ssr: false },
 );
 
@@ -25,7 +35,46 @@ export default function Home() {
   const [twitchUser, setTwitchUser] = useState("monstercat");
   const [youtubeId, setYoutubeId] = useState("jfKfPfyJRdk");
   const [streamyardId, setStreamyardId] = useState("");
-  const [activeTab, setActiveTab] = useState<"youtube" | "twitch" | "streamyard" | "zoom">("youtube");
+  const [activeTab, setActiveTab] = useState<"youtube" | "twitch" | "streamyard" | "zoom" | "stream">("youtube");
+
+  // Stream (GetStream.io) state
+  const [streamUserId, setStreamUserId] = useState("");
+  const [streamLink, setStreamLink] = useState(""); // pasted/generated call link or raw id
+  const [streamCallId, setStreamCallId] = useState(""); // active call id once joined
+  const [streamCopied, setStreamCopied] = useState(false);
+
+  // Persist a stable per-browser user id so the SDK token stays consistent.
+  useEffect(() => {
+    const stored = localStorage.getItem("stream_user_id");
+    const id = stored || `user-${Math.random().toString(36).slice(2, 10)}`;
+    if (!stored) localStorage.setItem("stream_user_id", id);
+    setStreamUserId(id);
+  }, []);
+
+  // Accept a full URL (".../call/<id>") or a raw id; return the call id.
+  const parseCallId = (link: string) => {
+    const m = link.trim().match(/\/call\/([^/?#]+)/);
+    return m ? decodeURIComponent(m[1]) : link.trim();
+  };
+
+  // Generate a new call link, drop it in the input, and copy to clipboard.
+  const createStreamLink = () => {
+    const id = `call-${Math.random().toString(36).slice(2, 10)}`;
+    const url = `${window.location.origin}/call/${id}`;
+    setStreamLink(url);
+    navigator.clipboard.writeText(url).then(() => {
+      setStreamCopied(true);
+      setTimeout(() => setStreamCopied(false), 1500);
+    });
+  };
+
+  // Join the call referenced by the input, rendering it on this page.
+  const joinStreamLink = () => {
+    const id = parseCallId(streamLink);
+    if (!id) return;
+    setStreamCallId(id);
+    setActiveTab("stream");
+  };
 
   // Zoom state
   const [zoomMeetingId, setZoomMeetingId] = useState("");
@@ -236,12 +285,51 @@ export default function Home() {
             </button>
             {zoomError && <p className="mt-2 text-[10px] text-red-400">{zoomError}</p>}
           </div>
+
+          {/* Stream (GetStream.io) — shareable 1:1 & group video calls */}
+          <div className="mt-6 pt-6 border-t border-zinc-800">
+            <label className="block text-[10px] text-zinc-400 mb-1 uppercase">Video Call</label>
+            <button
+              onClick={createStreamLink}
+              className="w-full mt-1 py-2 px-3 text-left rounded-md text-sm transition-all border border-emerald-700 text-emerald-300 hover:bg-emerald-900/40"
+            >
+              {streamCopied ? "Link copied!" : "Create shareable call"}
+            </button>
+
+            <label className="block text-[10px] text-zinc-400 mt-3 mb-1 uppercase">Call Link</label>
+            <input
+              type="text"
+              placeholder="Paste call link or id"
+              className="w-full bg-zinc-900 border border-zinc-700 rounded px-2 py-1 text-sm focus:outline-none focus:border-emerald-500"
+              value={streamLink}
+              onChange={(e) => setStreamLink(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && joinStreamLink()}
+            />
+            <button
+              onClick={joinStreamLink}
+              disabled={!streamLink.trim() || !streamUserId}
+              className={`w-full mt-2 py-2 px-3 text-left rounded-md text-sm transition-all disabled:opacity-40 ${
+                activeTab === "stream" ? "bg-emerald-600 text-white" : "hover:bg-zinc-800 text-zinc-400"
+              }`}
+            >
+              Join Call
+            </button>
+            <p className="mt-1 text-[9px] text-zinc-600">
+              Create copies a link to clipboard. Paste any call link to join here.
+            </p>
+          </div>
         </div>
       </aside>
 
       {/* Main content */}
       <main className="flex-1 bg-black relative">
-        {activeTab === "zoom" ? (
+        {activeTab === "stream" ? (
+          streamCallId && streamUserId && (
+            <StreamVideoProvider userId={streamUserId}>
+              <StreamMeetingRoom callId={streamCallId} />
+            </StreamVideoProvider>
+          )
+        ) : activeTab === "zoom" ? (
           zoomToken && (
             <ZoomMeeting
               zoomMeetingId={zoomToken.zoom_meeting_id}
