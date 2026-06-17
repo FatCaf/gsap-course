@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createMeeting, listMeetings, deleteMeeting } from "@/lib/zoom";
+import {
+  createMeeting,
+  listMeetings,
+  deleteMeeting,
+  derivePasscode,
+  updateMeetingPassword,
+} from "@/lib/zoom";
 import { getZoomAccessToken } from "@/lib/zoom-session";
-import { saveMeeting } from "@/lib/meeting-store";
 
 // POST /api/meetings  (body: topic=...) -> create a Zoom meeting for the
 // connected host. Returns { join_link, zoom_meeting_id } or zoom_not_connected.
@@ -16,8 +21,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const meeting = await createMeeting(token, topic);
-    // Persist passcode so participants can join with only the meeting ID.
-    saveMeeting(meeting.id, meeting.password);
+    // Overwrite passcode with a deterministic one derived from the id, so
+    // participants can join with only the id (no server-side store needed).
+    await updateMeetingPassword(token, meeting.id, derivePasscode(meeting.id));
 
     return NextResponse.json({
       zoom_meeting_id: String(meeting.id),

@@ -1,4 +1,6 @@
+
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 // Zoom OAuth app creds (General/OAuth app).
 const CLIENT_ID = process.env.ZOOM_CLIENT_ID!;
@@ -109,10 +111,31 @@ async function zoomFetch(
   return text ? JSON.parse(text) : null;
 }
 
+// Deterministic 6-digit passcode from the meeting id — lets participants join
+// with only the id, no server-side store (works across Vercel lambdas).
+export function derivePasscode(meetingId: string | number): string {
+  const h = crypto
+    .createHmac("sha256", SDK_SECRET)
+    .update(String(meetingId))
+    .digest("hex");
+  return (parseInt(h.slice(0, 12), 16) % 1_000_000).toString().padStart(6, "0");
+}
+
 export async function createMeeting(token: string, topic: string) {
   return zoomFetch(token, "/users/me/meetings", {
     method: "POST",
     body: JSON.stringify({ topic, type: 2 }), // 2 = scheduled
+  });
+}
+
+export async function updateMeetingPassword(
+  token: string,
+  meetingId: string | number,
+  password: string,
+) {
+  return zoomFetch(token, `/meetings/${meetingId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ password }),
   });
 }
 

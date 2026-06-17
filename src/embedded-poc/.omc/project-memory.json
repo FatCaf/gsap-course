@@ -42,7 +42,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npx tsc --noEmit 2>&1 | head; echo \"EXIT: ${PIPESTATUS[0]}\"",
+    "buildCommand": "npm run build 2>&1 | tail -25; echo \"EXIT: ${PIPESTATUS[0]}\"",
     "testCommand": null,
     "lintCommand": "npm run lint",
     "devCommand": "npm run dev",
@@ -106,8 +106,14 @@
   "hotPaths": [
     {
       "path": "app/api/meetings/route.ts",
-      "accessCount": 11,
-      "lastAccessed": 1781704013366,
+      "accessCount": 13,
+      "lastAccessed": 1781706222096,
+      "type": "file"
+    },
+    {
+      "path": "lib/zoom.ts",
+      "accessCount": 12,
+      "lastAccessed": 1781706194991,
       "type": "file"
     },
     {
@@ -117,21 +123,15 @@
       "type": "file"
     },
     {
-      "path": "lib/zoom.ts",
+      "path": "app/api/meetings/[id]/join-token/route.ts",
       "accessCount": 8,
-      "lastAccessed": 1781701613749,
+      "lastAccessed": 1781706255199,
       "type": "file"
     },
     {
       "path": "components/ZoomMeeting.tsx",
       "accessCount": 6,
       "lastAccessed": 1781701098339,
-      "type": "file"
-    },
-    {
-      "path": "app/api/meetings/[id]/join-token/route.ts",
-      "accessCount": 6,
-      "lastAccessed": 1781702449752,
       "type": "file"
     },
     {
