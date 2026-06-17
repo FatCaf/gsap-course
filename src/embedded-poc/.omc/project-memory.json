@@ -42,7 +42,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -60; echo \"EXIT: ${PIPESTATUS[0]}\"",
+    "buildCommand": "npx tsc --noEmit 2>&1 | head; echo \"EXIT: ${PIPESTATUS[0]}\"",
     "testCommand": null,
     "lintCommand": "npm run lint",
     "devCommand": "npm run dev",
@@ -106,20 +106,20 @@
   "hotPaths": [
     {
       "path": "app/api/meetings/route.ts",
-      "accessCount": 10,
-      "lastAccessed": 1781702393958,
+      "accessCount": 11,
+      "lastAccessed": 1781704013366,
+      "type": "file"
+    },
+    {
+      "path": "app/page.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1781704116084,
       "type": "file"
     },
     {
       "path": "lib/zoom.ts",
       "accessCount": 8,
       "lastAccessed": 1781701613749,
-      "type": "file"
-    },
-    {
-      "path": "app/page.tsx",
-      "accessCount": 7,
-      "lastAccessed": 1781701283994,
       "type": "file"
     },
     {

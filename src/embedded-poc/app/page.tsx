@@ -97,14 +97,21 @@ export default function Home() {
         credentials: "include",
       });
       const data = await res.json();
+      console.log("createMeeting response", res.status, data);
       if (data.error === "zoom_not_connected") {
         window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/zoom/connect`;
         return;
       }
+      if (!res.ok || data.error) {
+        setZoomError(`Create failed (${res.status}): ${data.detail || data.error || "unknown"}`);
+        setZoomBusy(false);
+        return;
+      }
       setZoomMeetingId(data.zoom_meeting_id);
       await joinZoom(data.zoom_meeting_id);
-    } catch {
-      setZoomError("Failed to create meeting");
+    } catch (e) {
+      console.error("createMeeting client error", e);
+      setZoomError(`Failed to create meeting: ${e instanceof Error ? e.message : String(e)}`);
       setZoomBusy(false);
     }
   };

@@ -14,14 +14,23 @@ export async function POST(req: NextRequest) {
   const form = await req.formData();
   const topic = (form.get("topic") as string) || "Meeting";
 
-  const meeting = await createMeeting(token, topic);
-  // Persist passcode so participants can join with only the meeting ID.
-  saveMeeting(meeting.id, meeting.password);
+  try {
+    const meeting = await createMeeting(token, topic);
+    // Persist passcode so participants can join with only the meeting ID.
+    saveMeeting(meeting.id, meeting.password);
 
-  return NextResponse.json({
-    zoom_meeting_id: String(meeting.id),
-    join_link: `/meeting/${meeting.id}`,
-  });
+    return NextResponse.json({
+      zoom_meeting_id: String(meeting.id),
+      join_link: `/meeting/${meeting.id}`,
+    });
+  } catch (e) {
+    const detail = e instanceof Error ? e.message : String(e);
+    console.error("createMeeting failed:", detail);
+    return NextResponse.json(
+      { error: "create_failed", detail },
+      { status: 502 },
+    );
+  }
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
