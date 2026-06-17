@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMeeting, getZak, signature, SDK_KEY } from "@/lib/zoom";
 import { getZoomAccessToken } from "@/lib/zoom-session";
+import { getStoredMeeting } from "@/lib/meeting-store";
 
 // GET /api/meetings/:id/join-token -> everything the embedded SDK needs.
 // Connected user => host (role 1 + zak). Anonymous => participant (role 0).
@@ -28,6 +29,11 @@ export async function GET(
       console.warn("zak fetch failed, joining as participant:", e);
       role = 0;
     }
+  } else {
+    // Participant path: no Zoom auth. Use the passcode saved at create time so
+    // joining with only the meeting ID works. role 0, no zak.
+    password = getStoredMeeting(id)?.password || "";
+    role = 0;
   }
 
   return NextResponse.json({

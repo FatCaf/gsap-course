@@ -42,7 +42,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npx tsc --noEmit 2>&1 | head; echo \"EXIT: ${PIPESTATUS[0]}\"",
+    "buildCommand": "npm run build 2>&1 | tail -60; echo \"EXIT: ${PIPESTATUS[0]}\"",
     "testCommand": null,
     "lintCommand": "npm run lint",
     "devCommand": "npm run dev",
@@ -105,15 +105,15 @@
   },
   "hotPaths": [
     {
-      "path": "lib/zoom.ts",
-      "accessCount": 8,
-      "lastAccessed": 1781701613749,
+      "path": "app/api/meetings/route.ts",
+      "accessCount": 10,
+      "lastAccessed": 1781702393958,
       "type": "file"
     },
     {
-      "path": "app/api/meetings/route.ts",
+      "path": "lib/zoom.ts",
       "accessCount": 8,
-      "lastAccessed": 1781701654126,
+      "lastAccessed": 1781701613749,
       "type": "file"
     },
     {
@@ -130,8 +130,8 @@
     },
     {
       "path": "app/api/meetings/[id]/join-token/route.ts",
-      "accessCount": 4,
-      "lastAccessed": 1781700783800,
+      "accessCount": 6,
+      "lastAccessed": 1781702449752,
       "type": "file"
     },
     {
@@ -165,6 +165,12 @@
       "type": "file"
     },
     {
+      "path": "next.config.mjs",
+      "accessCount": 2,
+      "lastAccessed": 1781702489811,
+      "type": "file"
+    },
+    {
       "path": "app/dashboard/page.tsx",
       "accessCount": 1,
       "lastAccessed": 1781697957111,
@@ -183,9 +189,9 @@
       "type": "file"
     },
     {
-      "path": "next.config.mjs",
+      "path": "lib/meeting-store.ts",
       "accessCount": 1,
-      "lastAccessed": 1781700902582,
+      "lastAccessed": 1781702201619,
       "type": "file"
     }
   ],
