@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"echo \\\"---main pkg---\\\"; node -e \\\"const p=require('./node_modules/@zoom/meetingsdk/package.json'); console.log('main',p.main,'module',p.module,'name',p.name,'version',p.version)\\\"; echo \\...",
+  "error": "Exit code 1\n---main pkg---\nmain index.js module undefined name @zoom/meetingsdk version 6.1.0\n---embedded dir---\n---grep export in embedded index---\n...",
+  "timestamp": "2026-06-17T12:28:37.917Z",
+  "retry_count": 1
+}

@@ -1,0 +1,193 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1781695378581,
+  "projectRoot": "/Users/mykyta/gsap-course/src/embedded-poc",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.1.7",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.3",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.3",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npx tsc --noEmit 2>&1 | head; echo \"EXIT: ${PIPESTATUS[0]}\"",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "app",
+      "public"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "app": {
+      "path": "app",
+      "purpose": "Application code",
+      "fileCount": 4,
+      "lastAccessed": 1781695378572,
+      "keyFiles": [
+        "favicon.ico",
+        "globals.css",
+        "layout.tsx",
+        "page.tsx"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 5,
+      "lastAccessed": 1781695378572,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "next.svg",
+        "vercel.svg",
+        "window.svg"
+      ]
+    },
+    "app/api": {
+      "path": "app/api",
+      "purpose": "API routes",
+      "fileCount": 0,
+      "lastAccessed": 1781695378575,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "lib/zoom.ts",
+      "accessCount": 8,
+      "lastAccessed": 1781701613749,
+      "type": "file"
+    },
+    {
+      "path": "app/api/meetings/route.ts",
+      "accessCount": 8,
+      "lastAccessed": 1781701654126,
+      "type": "file"
+    },
+    {
+      "path": "app/page.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1781701283994,
+      "type": "file"
+    },
+    {
+      "path": "components/ZoomMeeting.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1781701098339,
+      "type": "file"
+    },
+    {
+      "path": "app/api/meetings/[id]/join-token/route.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781700783800,
+      "type": "file"
+    },
+    {
+      "path": "app/meeting/[id]/page.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781700823491,
+      "type": "file"
+    },
+    {
+      "path": "next.config.ts",
+      "accessCount": 3,
+      "lastAccessed": 1781700232158,
+      "type": "file"
+    },
+    {
+      "path": ".env",
+      "accessCount": 2,
+      "lastAccessed": 1781698116053,
+      "type": "file"
+    },
+    {
+      "path": "app/zoom/callback/route.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781699022150,
+      "type": "file"
+    },
+    {
+      "path": "lib/zoom-session.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781700858475,
+      "type": "file"
+    },
+    {
+      "path": "app/dashboard/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781697957111,
+      "type": "file"
+    },
+    {
+      "path": "app/zoom/connect/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781698006320,
+      "type": "file"
+    },
+    {
+      "path": "lib/empty-module.js",
+      "accessCount": 1,
+      "lastAccessed": 1781698884558,
+      "type": "file"
+    },
+    {
+      "path": "next.config.mjs",
+      "accessCount": 1,
+      "lastAccessed": 1781700902582,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
